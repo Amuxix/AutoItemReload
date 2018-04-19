@@ -6,7 +6,7 @@
 
     <groupId>me.amuxix</groupId>
     <artifactId>AutoItemReload</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <build>
         <resources>
@@ -28,6 +28,14 @@
                     <outputDirectory>${dir}</outputDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -42,7 +50,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.11.2-R0.1-SNAPSHOT</version>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
