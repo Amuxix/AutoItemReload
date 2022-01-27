@@ -2,4 +2,5 @@ name: ${name}
 version: ${version}
 main: ${groupId}.${name}
 author: Amuxix
+api-version: 1.18
 description: A plugin that auto grabs a new stack of items when you run out.
