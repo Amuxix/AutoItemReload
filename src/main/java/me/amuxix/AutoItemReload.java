@@ -12,7 +12,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static org.bukkit.Material.AIR;
 import static org.bukkit.event.EventPriority.MONITOR;
 import static org.bukkit.inventory.EquipmentSlot.HAND;
 import static org.bukkit.inventory.EquipmentSlot.OFF_HAND;
@@ -29,22 +28,12 @@ public class AutoItemReload extends JavaPlugin implements Listener {
         //Arrays.asList(inventory.getContents()).stream().map(itemStack -> itemStack.getData())
         new BukkitRunnable() {
             public void run() {
-                if (inventory.containsAtLeast(heldItem, 1)) {
+                int replacementSlot = inventory.first(heldItem.getType());
+                if (replacementSlot != -1) {
                     // This is the item in hand after the event that triggered the reload has resolved
                     final ItemStack itemInHand = hand == HAND ? inventory.getItemInMainHand() : inventory.getItemInOffHand();
-                    ItemStack[] contents = inventory.getContents();
-                    int replacementSlot = inventory.first(heldItem);
                     ItemStack replacement = inventory.getItem(replacementSlot);
-
-                    if (replacement == null) {
-                        return;
-                    }
                     inventory.setItem(hand, replacement);
-                    /*if(hand == HAND) {
-                        inventory.setItemInMainHand(replacement);
-                    } else {
-                        inventory.setItemInOffHand(replacement);
-                    }*/
                     inventory.setItem(replacementSlot, itemInHand);
                 }
             }
@@ -58,7 +47,6 @@ public class AutoItemReload extends JavaPlugin implements Listener {
             reloadHand(player, event.getHand());
         }
     }
-
 
     @EventHandler(priority = MONITOR)
     public void onPlayerBucketEmptyEvent(PlayerBucketEmptyEvent event) {
@@ -80,11 +68,7 @@ public class AutoItemReload extends JavaPlugin implements Listener {
     public void onPlayerItemBreakEvent(PlayerItemBreakEvent event) {
         Player player = event.getPlayer();
         if (player.getGameMode() != GameMode.CREATIVE) {
-            if (player.getInventory().getItemInMainHand().getType() == AIR) {
-                reloadHand(player, HAND);
-            } else {
-                reloadHand(player, OFF_HAND);
-            }
+            reloadHand(player, HAND);
         }
     }
 
